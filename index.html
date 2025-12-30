@@ -43,7 +43,7 @@
 </head>
 <body>
 
-  <h1>🌳 Community Tree Watering Tracker</h1>
+  <h1>🌳 RRC Tree Watering Tracker</h1>
 
   <div class="map-container">
     <img src="./RRC patches.jpg" alt="Map" class="map-img">
@@ -93,6 +93,22 @@
     // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
     const API_URL = "https://script.google.com/macros/s/AKfycbxkE0P8dfS8QqkRqCKzznI8NpgmuMXd1pjHATZSIPP1baDidx96ULacygk0DOv2DvLq/exec";
 
+    function formatDate(dateString) {
+      // 1. Handle empty or invalid dates
+      if (!dateString || dateString === 'N/A' || dateString === '-') return '-';
+      
+      // 2. Create the date object
+      const date = new Date(dateString);
+      
+      // 3. Format as MM/DD/YYYY
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric',   // "2025"
+        month: '2-digit',  // "12" (instead of "Dec")
+        day: '2-digit',    // "30" (adds a leading zero if needed, e.g., "05")
+        timeZone: 'UTC'    // Keeps the date exact
+      });
+    }
+    
     // Set today's date as default
     document.getElementById('input-date').valueAsDate = new Date();
 
@@ -106,10 +122,10 @@
         ['A', 'B', 'C', 'D'].forEach(zone => {
           const info = data[zone] || {date: '-', by: '-'};
           const row = `<tr>
-            <td><strong>Zone ${zone}</strong></td>
-            <td>${info.date}</td>
-            <td>${info.by}</td>
-          </tr>`;
+        <td><strong>Zone ${zone}</strong></td>
+        <td>${formatDate(info.date)}</td>   <-- NEW CODE
+        <td>${info.by}</td>
+      </tr>`;
           tbody.innerHTML += row;
         });
       } catch (e) {
@@ -150,4 +166,5 @@
   </script>
 
 </body>
+
 </html>
