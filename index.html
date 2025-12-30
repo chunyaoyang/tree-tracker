@@ -210,11 +210,30 @@
 
     // Load data on page start
     loadData();
+    
+    // --- TEMPORARY HELPER TOOL ---
+    // 1. Click the map image to get coordinates.
+    // 2. Look in the Browser Console (F12 > Console tab) to see the numbers.
+    
+    document.querySelector('.map-overlay').addEventListener('click', function(e) {
+      const svg = e.currentTarget;
+      const rect = svg.getBoundingClientRect();
+      
+      // Calculate x,y relative to the SVG's viewBox (0-1000 width, 0-800 height)
+      // If you changed your viewBox, change the 1000/800 numbers below to match!
+      const x = Math.round((e.clientX - rect.left) / rect.width * 1000); 
+      const y = Math.round((e.clientY - rect.top) / rect.height * 800);
+      
+      console.log(`${x},${y}`);
+      alert(`Coordinate: ${x},${y} (Copied to Console)`);
+    });
+
   </script>
 
 </body>
 
 </html>
+
 
 
 
