@@ -48,11 +48,6 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
-    /* Update label positions to match new map size */
-    #label-a { top: 18%; left: 12%; }
-    #label-b { top: 12%; left: 38%; }
-    #label-c { top: 55%; left: 25%; }
-    #label-d { top: 65%; left: 55%; }
 
     /* TABLE STYLES */
     table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -106,28 +101,14 @@
                onclick="selectZone('7')"></polygon>
     </svg>
 
-    <div class="zone-label" style="top: 85%; left: 10%;">Zone 1</div>
-    <div class="zone-label" style="top: 55%; left: 35%;">Zone 2</div>
-    <div class="zone-label" style="top: 70%; left: 75%;">Zone 3</div>
-    <div class="zone-label" style="top: 55%; left: 95%;">Zone 4</div>
+    <div class="zone-label" style="top: 60%; left: 35%;">Zone 1</div>
+    <div class="zone-label" style="top: 45%; left: 28%;">Zone 2</div>
+    <div class="zone-label" style="top: 70%; left: 68%;">Zone 3</div>
+    <div class="zone-label" style="top: 50%; left: 88%;">Zone 4</div>
     <div class="zone-label" style="top: 15%; left: 55%;">Zone 5</div>
     <div class="zone-label" style="top: 20%; left: 30%;">Zone 6</div>
     <div class="zone-label" style="top: 25%; left: 8%;">Zone 7</div>
   </div>
-
-  <h3>Current Status</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Zone</th>
-        <th>Last Watered</th>
-        <th>Watered By</th>
-      </tr>
-    </thead>
-    <tbody id="status-body">
-      <tr><td colspan="3">Loading data...</td></tr>
-    </tbody>
-  </table>
 
   <div class="update-form">
     <h3>I watered a tree! 💧</h3>
@@ -153,6 +134,22 @@
     </div>
     <button id="submit-btn" onclick="submitData()">Submit Update</button>
   </div>
+
+  <h3>Current Status</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Zone</th>
+        <th>Last Watered</th>
+        <th>Watered By</th>
+      </tr>
+    </thead>
+    <tbody id="status-body">
+      <tr><td colspan="3">Loading data...</td></tr>
+    </tbody>
+  </table>
+
+
 
   <script>
     // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
@@ -251,6 +248,7 @@
 </body>
 
 </html>
+
 
 
 
