@@ -9,7 +9,13 @@
     /* MAP CONTAINER */
     .map-container { position: relative; width: 100%; margin-bottom: 20px; }
     .map-img { width: 100%; display: block; border-radius: 8px; }
-    
+
+    /* Highlights the currently selected patch in Yellow/Orange */
+    .zone-shape.selected-zone {
+      fill: rgba(255, 193, 7, 0.6) !important; 
+      stroke: #333; /* Darker border */
+      stroke-width: 3;
+    }
       /* SVG OVERLAY STYLES */
     .map-overlay {
       position: absolute;
@@ -46,6 +52,8 @@
       font-size: 14px;
       pointer-events: none;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      pointer-events: auto; /* ALLOW clicks */
+      cursor: pointer;      /* Show hand icon */
     }
     
 
@@ -62,6 +70,31 @@
     button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; font-size: 16px; }
     button:hover { background-color: #45a049; }
     button:disabled { background-color: #ccc; }
+
+    /* Mobile-friendly sizing */
+    input, select, button {
+      padding: 12px;     /* Bigger padding for easier tapping */
+      font-size: 16px;   /* Prevents iPhone from auto-zooming in when typing */
+    }
+
+    /* Add extra spacing between form elements on mobile */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    /* Only applies to screens smaller than 600px (Phones) */
+    @media (max-width: 600px) {
+      h1 { font-size: 24px; }     /* Smaller Title */
+      
+      th, td { 
+        padding: 8px 4px;         /* Less padding in table cells */
+        font-size: 14px;          /* Slightly smaller text */
+      }
+      
+      .zone-label {
+        font-size: 10px;          /* Smaller labels so they don't cover the map */
+        padding: 2px 4px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -197,30 +230,60 @@
     }
 
     async function submitData() {
+      // 1. Get Elements
       const btn = document.getElementById('submit-btn');
+      const nameInput = document.getElementById('input-name');
+      const zoneInput = document.getElementById('input-zone');
+      const dateInput = document.getElementById('input-date');
+      
+      // 2. Validation: Ensure name is not empty
+      if(!nameInput.value) {
+        alert("Please enter your initials.");
+        return;
+      }
+
+      // 3. Set Loading State
+      const originalText = "Submit Update";
       btn.disabled = true;
       btn.innerText = "Saving...";
 
+      // 4. Prepare Payload
       const payload = {
-        zone: document.getElementById('input-zone').value,
-        date: document.getElementById('input-date').value,
-        name: document.getElementById('input-name').value
+        zone: zoneInput.value,
+        date: dateInput.value,
+        name: nameInput.value
       };
 
       try {
+        // 5. Send to Google Script
         await fetch(API_URL, {
           method: "POST",
           body: JSON.stringify(payload)
         });
-        alert("Thank you for watering!");
-        loadData(); // Refresh table
-        document.getElementById('input-name').value = ""; // Clear name
+        
+        // 6. SUCCESS: Visual Feedback (No Alert Box)
+        btn.innerText = "Success! Tree Hydrated 🌳";
+        btn.style.backgroundColor = "#2196F3"; // Blue to indicate success
+        
+        // Clear name and refresh the table data immediately
+        nameInput.value = ""; 
+        loadData(); 
+        
+        // 7. Reset Button after 3 seconds
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.innerText = originalText;
+          btn.style.backgroundColor = "#4CAF50"; // Back to Green
+        }, 3000);
+        
       } catch (e) {
-        alert("Error saving data.");
+        console.error(e);
+        alert("Error saving data. Please check your internet connection.");
+        
+        // Reset button immediately if there is an error
+        btn.disabled = false;
+        btn.innerText = originalText;
       }
-      
-      btn.disabled = false;
-      btn.innerText = "Submit Update";
     }
 
     // Load data on page start
@@ -243,11 +306,29 @@
       console.log("Auto-selected Zone: " + zoneValue);
     }
 
+    function selectZone(zoneValue) {
+    // 1. Update the dropdown
+    document.getElementById('input-zone').value = zoneValue;
+    
+    // 2. Remove highlight from ALL zones first
+    document.querySelectorAll('.zone-shape').forEach(el => el.classList.remove('selected-zone'));
+    
+    // 3. Add highlight to the CLICKED zone
+    // Note: This works because your IDs are "zone-1", "zone-2", etc.
+    const activeZone = document.getElementById('zone-' + zoneValue);
+    if (activeZone) activeZone.classList.add('selected-zone');
+  
+    // 4. Scroll to form
+    document.querySelector('.update-form').scrollIntoView({ behavior: 'smooth' });
+  }
+
+    
   </script>
 
 </body>
 
 </html>
+
 
 
 
