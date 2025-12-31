@@ -294,38 +294,20 @@
     // Load data on page start
     loadData();
 
-    // HELPER: Selects the zone in the form when map is clicked
     function selectZone(zoneValue) {
-      // 1. Find the dropdown menu
-      const dropdown = document.getElementById('input-zone');
-      
-      // 2. Change the value to match the clicked zone
-      dropdown.value = zoneValue;
-      
-      // 3. Smoothly scroll down so the user sees the form
-      document.querySelector('.update-form').scrollIntoView({ 
-        behavior: 'smooth' 
-      });
-      
-      // Optional: Log it for testing
-      console.log("Auto-selected Zone: " + zoneValue);
-    }
-
-    function selectZone(zoneValue) {
-    // 1. Update the dropdown
-    document.getElementById('input-zone').value = zoneValue;
-    
-    // 2. Remove highlight from ALL zones first
-    document.querySelectorAll('.zone-shape').forEach(el => el.classList.remove('selected-zone'));
-    
-    // 3. Add highlight to the CLICKED zone
-    // Note: This works because your IDs are "zone-1", "zone-2", etc.
-    const activeZone = document.getElementById('zone-' + zoneValue);
-    if (activeZone) activeZone.classList.add('selected-zone');
-  
-    // 4. Scroll to form
-    document.querySelector('.update-form').scrollIntoView({ behavior: 'smooth' });
-  }
+          // 1. Update the dropdown
+          document.getElementById('input-zone').value = zoneValue;
+          
+          // 2. Remove highlight from ALL zones first
+          document.querySelectorAll('.zone-shape').forEach(el => el.classList.remove('selected-zone'));
+          
+          // 3. Add highlight to the CLICKED zone
+          const activeZone = document.getElementById('zone-' + zoneValue);
+          if (activeZone) activeZone.classList.add('selected-zone');
+        
+          // 4. Scroll to form
+          document.querySelector('.update-form').scrollIntoView({ behavior: 'smooth' });
+        }
 
     
   </script>
@@ -333,6 +315,7 @@
 </body>
 
 </html>
+
 
 
 
