@@ -75,31 +75,44 @@
 
   <div class="map-container">
     <img src="./RRC.jpg" alt="Map" class="map-img">
-    <svg class="map-overlay" preserveAspectRatio="none">
+    <svg class="map-overlay" viewBox="0 0 1095 892" preserveAspectRatio="none">
       
-      <polygon class="zone-shape" id="poly-a" 
-               points="828, 411, 805, 457, 862, 466, 884, 484, 892, 460, 880, 439" 
-               onclick="selectZone('A')"></polygon>
+      <polygon class="zone-shape" id="zone-1" 
+               points="67, 341, 51, 342, 40, 354, 40, 383, 976, 815, 988, 786, 717, 662, 642, 622, 626, 601, 601, 587, 579, 588, 323, 470, 307, 445, 286, 439, 262, 434"
+               onclick="selectZone('1')"></polygon>
       
-      <polygon class="zone-shape" id="poly-b" 
-               points="505, 265, 497, 299, 556, 315, 593, 347, 617, 306, 596, 271, 553, 255" 
-               onclick="selectZone('B')"></polygon>
-               
-      <polygon class="zone-shape" id="poly-c" 
-               points="50,300 400,500 550,550 500,600 50,350" 
-               onclick="selectZone('C')"></polygon>
-               
-      <polygon class="zone-shape" id="poly-d" 
-               points="550,500 700,550 700,650 550,600" 
-               onclick="selectZone('D')"></polygon>
+      <polygon class="zone-shape" id="zone-2" 
+               points="495, 452, 468, 496, 323, 425, 290, 411, 266, 409, 236, 392, 227, 383, 163, 351, 171, 326, 208, 322, 251, 374, 316, 394, 341, 359, 361, 370, 359, 424, 398, 420, 444, 439"
+               onclick="selectZone('2')"></polygon>
+      
+      <polygon class="zone-shape" id="zone-3" 
+               points="653, 523, 667, 525, 663, 553, 815, 616, 810, 634, 1008, 738, 997, 759, 754, 640, 707, 622, 686, 623, 664, 605, 643, 575"
+               onclick="selectZone('3')"></polygon>
 
-      
+      <polygon class="zone-shape" id="zone-4" 
+               points="962, 402, 942, 456, 1080, 526, 1044, 603, 1063, 615, 1092, 543, 1088, 515"
+               onclick="selectZone('4')"></polygon>
+
+      <polygon class="zone-shape" id="zone-5" 
+               points="430, 70, 432, 99, 525, 108, 546, 140, 691, 177, 696, 223, 737, 234, 726, 199, 740, 179, 628, 76"
+               onclick="selectZone('5')"></polygon>
+
+      <polygon class="zone-shape" id="zone-6" 
+               points="208, 132, 208, 188, 286, 185, 299, 193, 323, 225, 417, 221, 414, 183, 391, 180, 378, 172, 386, 101, 423, 101, 424, 74, 376, 87, 349, 108, 293, 128"
+               onclick="selectZone('6')"></polygon>
+               
+      <polygon class="zone-shape" id="zone-7" 
+               points="202, 132, 202, 151, 96, 148, 91, 297, 129, 297, 126, 325, 107, 325, 62, 302, 43, 301, 35, 280, 33, 153, 42, 136, 111, 128, 111, 128"
+               onclick="selectZone('7')"></polygon>
     </svg>
 
-    <div id="label-a" class="zone-label" style="top: 20%; left: 10%;">Zone A</div>
-    <div id="label-b" class="zone-label" style="top: 10%; left: 42%;">Zone B</div>
-    <div id="label-c" class="zone-label" style="top: 50%; left: 25%;">Zone C</div>
-    <div id="label-d" class="zone-label" style="top: 65%; left: 60%;">Zone D</div>
+    <div class="zone-label" style="top: 85%; left: 10%;">Zone 1</div>
+    <div class="zone-label" style="top: 55%; left: 35%;">Zone 2</div>
+    <div class="zone-label" style="top: 70%; left: 75%;">Zone 3</div>
+    <div class="zone-label" style="top: 55%; left: 95%;">Zone 4</div>
+    <div class="zone-label" style="top: 15%; left: 55%;">Zone 5</div>
+    <div class="zone-label" style="top: 20%; left: 30%;">Zone 6</div>
+    <div class="zone-label" style="top: 25%; left: 8%;">Zone 7</div>
   </div>
 
   <h3>Current Status</h3>
@@ -121,10 +134,13 @@
     <div class="form-group">
       <label>Which Zone?</label>
       <select id="input-zone">
-        <option value="A">Zone A</option>
-        <option value="B">Zone B</option>
-        <option value="C">Zone C</option>
-        <option value="D">Zone D</option>
+        <option value="1">Zone 1</option>
+        <option value="2">Zone 2</option>
+        <option value="3">Zone 3</option>
+        <option value="4">Zone 4</option>
+        <option value="5">Zone 5</option>
+        <option value="6">Zone 6</option>
+        <option value="7">Zone 7</option>
       </select>
     </div>
     <div class="form-group">
@@ -168,7 +184,7 @@
         const tbody = document.getElementById('status-body');
         tbody.innerHTML = ""; // Clear loading text
         
-        ['A', 'B', 'C', 'D'].forEach(zone => {
+        ['1', '2', '3', '4', '5', '6', '7'].forEach(zone => {
           const info = data[zone] || {date: '-', by: '-'};
           const row = `<tr>
         <td><strong>Zone ${zone}</strong></td>
@@ -212,13 +228,30 @@
 
     // Load data on page start
     loadData();
-    
+
+    // HELPER: Selects the zone in the form when map is clicked
+    function selectZone(zoneValue) {
+      // 1. Find the dropdown menu
+      const dropdown = document.getElementById('input-zone');
+      
+      // 2. Change the value to match the clicked zone
+      dropdown.value = zoneValue;
+      
+      // 3. Smoothly scroll down so the user sees the form
+      document.querySelector('.update-form').scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+      
+      // Optional: Log it for testing
+      console.log("Auto-selected Zone: " + zoneValue);
+    }
 
   </script>
 
 </body>
 
 </html>
+
 
 
 
