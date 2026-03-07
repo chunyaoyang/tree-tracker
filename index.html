@@ -118,7 +118,7 @@
                onclick="selectZone('3')"></polygon>
 
       <polygon class="zone-shape" id="zone-4" 
-               points="962, 402, 942, 456, 1080, 526, 1044, 603, 1063, 615, 1092, 543, 1088, 515"
+               points="825, 412, 885, 444, 895, 466, 885, 483, 851, 465, 795, 467, 766, 459, 800, 391"
                onclick="selectZone('4')"></polygon>
 
       <polygon class="zone-shape" id="zone-5" 
@@ -132,6 +132,14 @@
       <polygon class="zone-shape" id="zone-7" 
                points="202, 132, 202, 151, 96, 148, 91, 297, 129, 297, 126, 325, 107, 325, 62, 302, 43, 301, 35, 280, 33, 153, 42, 136, 111, 128, 111, 128"
                onclick="selectZone('7')"></polygon>
+
+      <polygon class="zone-shape" id="zone-8" 
+               points="511, 242, 494, 301, 562, 327, 592, 355, 624, 307, 602, 269, 570, 253, 570, 253"
+               onclick="selectZone('8')"></polygon>
+
+      <polygon class="zone-shape" id="zone-9" 
+               points="504, 232, 487, 298, 420, 299, 369, 282, 336, 248, 336, 231, 434, 213, 470, 220, 470, 220"
+               onclick="selectZone('9')"></polygon>
     </svg>
 
     <div class="zone-label" style="top: 60%; left: 35%;">Zone 1</div>
@@ -141,6 +149,8 @@
     <div class="zone-label" style="top: 15%; left: 55%;">Zone 5</div>
     <div class="zone-label" style="top: 20%; left: 30%;">Zone 6</div>
     <div class="zone-label" style="top: 25%; left: 8%;">Zone 7</div>
+    <div class="zone-label" style="top: 33%; left: 50%;">Zone 8</div>
+    <div class="zone-label" style="top: 28%; left: 38%;">Zone 9</div>
   </div>
 
   <div class="update-form">
@@ -155,6 +165,8 @@
         <option value="5">Zone 5</option>
         <option value="6">Zone 6</option>
         <option value="7">Zone 7</option>
+        <option value="8">Zone 8</option>
+        <option value="9">Zone 9</option>
       </select>
     </div>
     <div class="form-group">
@@ -219,7 +231,7 @@
         const tbody = document.getElementById('status-body');
         tbody.innerHTML = ""; // Clear loading text
         
-        ['1', '2', '3', '4', '5', '6', '7'].forEach(zone => {
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(zone => {
           const info = data[zone] || {date: '-', by: '-'};
           const row = `<tr>
         <td><strong>Zone ${zone}</strong></td>
